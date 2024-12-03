@@ -1,11 +1,8 @@
 public class ChecklistGoal : Goal{
+    private int _timesCompleted;
+    private int _completionTarget;
+    private int _bonusPoints;
 
-    private int _timesCompleted; //number of times the goal has been completed.
-    private int _completionTarget; //number of times the goal must be completed to be marked as complete.
-    private int _bonusPoints; //points awarded for completing the goal.
-
-
-    //constructor calling the base goal class constructor.
     public ChecklistGoal(string name, string description, int points, int completionTarget, int bonusPoints) 
         : base(name, description, points)
     {
@@ -14,27 +11,47 @@ public class ChecklistGoal : Goal{
         _bonusPoints = bonusPoints;
     }
 
-
-
-    //Overriding the RecordEvent method to mark the goal as complete and give points
-    public override void RecordEvent()
+public override void RecordEvent()
+{
+    // If already fully completed, prevent further recordings
+    if (_isComplete)
     {
-       _timesCompleted++; //incrementing the number of times the goal has been completed.
-       _points += GetPoints();//Add the base points for every completion
-       
+        Console.WriteLine($"Goal '{GetName()}' is complete! Congratulations on completing the checklist goal! Consider creating a new goal.");
+        return;
+    }
+
+    _timesCompleted++; // Increment times completed
+   
     if(_timesCompleted >= _completionTarget)
     {
-        _isComplete = true; // Mark goal as complete when target is reached
-        _points += _bonusPoints; //add bonus points to user score when goal is completed.
+        _isComplete = true;
     }
 }
-  // Override GetPoints to return total points instead of base points
+
+    // Return points based on times completed and bonus
     public override int GetPoints()
     {
-        return _points;
+        // Normal points for each completion
+        int points = base.GetPoints();
+        
+        // If fully completed, add bonus points
+        if (_timesCompleted == _completionTarget)
+        {
+            return points + _bonusPoints;
+        }
+        
+        // Otherwise, just return points for current completion
+        return points;
     }
 
-// Method to display progress
+    // Override GetDetails to include progress
+    public override string GetDetails()
+    {
+        string completionStatus = _isComplete ? "[X]" : "[ ]";
+        return $"{completionStatus} {GetName()} ({GetDescription()}) -- Currently {GetProgress()}";
+    }
+
+    // Method to display progress
     public string GetProgress()
     {
         return $"{_timesCompleted}/{_completionTarget} times completed";

@@ -16,6 +16,12 @@ public abstract class Goal
     }
 
     //methods
+
+    public virtual string GetDetails()
+{
+    string completionStatus = _isComplete ? "[X]" : "[ ]";
+    return $"{completionStatus} {_name} ({_description})";
+}
     public string GetName()
     {
         return _name;

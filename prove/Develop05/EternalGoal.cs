@@ -1,23 +1,20 @@
-public class EternalGoal : Goal{
-    //constructor calling the base goal class constructor.
-
-    private int _totalPoints; //tracking total points.
+public class EternalGoal : Goal
+{
     public EternalGoal(string name, string description, int points) 
         : base(name, description, points)
     {
-        _totalPoints = 0;
+        // No need to track total points in this class
     }
-    //Overriding the RecordEvent method to mark the goal as complete and give points
+    
+    // Simply call the base method
     public override void RecordEvent()
     {
-       //add points to user score each time goal recorded
-       //no completion, just total points.
-       _points += GetPoints();
+        // No need to track points within the goal itself
     }
 
-    // Override GetPoints to return total points instead of base points
+    // Return the base points each time
     public override int GetPoints()
     {
-        return _totalPoints;
+        return base.GetPoints(); // Always return the base points
     }
 }
