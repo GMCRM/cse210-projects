@@ -3,30 +3,52 @@ using System;
 public class ScriptureMemorizer
 {
     // Attributes
-    public ScriptureReference Reference { get; set; }
-    public ScriptureText Text { get; set; }
+    private ScriptureReference _reference; // Backing field for Reference
+    private ScriptureText _text;          // Backing field for Text
 
     // Constructor
     public ScriptureMemorizer(ScriptureReference reference, ScriptureText text)
     {
-        Reference = reference;
-        Text = text;
+        _reference = reference;
+        _text = text;
+    }
+
+    // Getter and Setter for Reference
+    public ScriptureReference GetReference()
+    {
+        return _reference;
+    }
+
+    public void SetReference(ScriptureReference reference)
+    {
+        _reference = reference;
+    }
+
+    // Getter and Setter for Text
+    public ScriptureText GetText()
+    {
+        return _text;
+    }
+
+    public void SetText(ScriptureText text)
+    {
+        _text = text;
     }
 
     // Method to start memorization
     public void StartMemorization()
     {
-        while (!Text.IsFullyHidden())
+        while (!_text.IsFullyHidden())
         {
             Console.Clear();
-            Console.WriteLine($"{Reference.GetReference()} - {Text.WordList}");
+            Console.WriteLine($"{_reference.GetReference()} - {_text.GetWordList()}");
             Console.WriteLine("\nPress Enter to continue hiding more words.");
-            Console.ReadLine();  // Just wait for Enter, ignore the input
-            Text.HideRandomWords(3);
+            Console.ReadLine(); // Just wait for Enter, ignore the input
+            _text.HideRandomWords(3);
         }
-        
+
         Console.Clear();
-        Console.WriteLine($"{Reference.GetReference()} - {Text.WordList}");
+        Console.WriteLine($"{_reference.GetReference()} - {_text.GetWordList()}");
         Console.WriteLine("\nAll words are hidden. Press Enter to end.");
         Console.ReadLine();
     }
